@@ -1,7 +1,6 @@
 # Masking Gaussian Elimination at Arbitrary Order
 This repository contains ARM Cortex-M4 (C) code for the arbitrary-order masked implementation of Gaussian Elimination with Back Substitution.\
 NOTE: This implementation does not include any mitigation of micro-architectural leakages and has not undergone practical leakage evaluation. Our implementation is a proof-of-concept for the (masking) techniques described in our paper 'Masking Gaussian Elimination at Arbitrary Order' [[ePrint]](http://eprint.iacr.org/2024/1777), to appear at CT-RSA 2025. Its primary goal is to evaluate the performance overhead for different parameters sets. 
-### Contents
 
 ## Requirements
 The code in this repository targets the [STM32F4 Discovery board](https://www.st.com/en/evaluation-tools/stm32f4discovery.html), containing an Arm Cortex-M4 microcontroller.
