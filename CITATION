@@ -1,0 +1,7 @@
+@misc{cryptoeprint:2024/1777,
+author = {Quinten Norga and Suparna Kundu and Uttam Kumar Ojha and Anindya Ganguly and Angshuman Karmakar and Ingrid Verbauwhede},
+title = {Masking Gaussian Elimination at Arbitrary Order, with Application to Multivariate- and Code-Based {PQC}},
+howpublished = {Cryptology {ePrint} Archive, Paper 2024/1777},
+year = {2024},
+url = {https://eprint.iacr.org/2024/1777}
+}

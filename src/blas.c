@@ -1,0 +1,66 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2025 KU Leuven - COSIC
+ * Authors: Quinten Norga <quinten.norga@esat.kuleuven.be>
+ *          Suparna Kundu <suparna.kundu@esat.kuleuven.be>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#include "blas.h"
+
+void secCondAdd_gf256(uint8_t s_out[N_SHARES], uint8_t x_in[N_SHARES], uint8_t y_in[N_SHARES], uint8_t b_in[N_SHARES]) {
+    uint8_t a[N_SHARES];
+    uint8_t b_ext[N_SHARES];
+    for (uint8_t i = 0; i < N_SHARES; i++) {
+        b_ext[i] = (uint8_t)(-b_in[i]); // sign extend
+    }
+    
+    secAND_gf256(a, y_in, b_ext);
+
+    for (uint8_t i = 0; i < N_SHARES; i++) {
+        s_out[i] = a[i] ^ x_in[i];
+    }
+
+    strongrefresh_gf256(s_out, s_out);
+}
+
+void secScalarMult_gf256(uint8_t y_out[N_SHARES], uint8_t x_in[N_SHARES], uint8_t p_in[N_SHARES]) {
+    for (uint8_t i = 0; i < N_SHARES; i++) {
+        y_out[i] = x_in[i];
+    }
+
+    for (uint8_t j = 0; j < N_SHARES; j++) {
+        for (uint8_t i = 0; i < N_SHARES; i++) {
+            y_out[i] = gf256_mul(y_out[i], p_in[j]);
+        }
+        refresh_gf256(y_out, y_out);
+    }
+}
+
+void secMultSub_gf256(uint8_t z_out[N_SHARES], uint8_t x_in[N_SHARES], uint8_t y_in[N_SHARES], uint8_t c_in[N_SHARES]) {
+    uint8_t t[N_SHARES];
+    
+    secMult_gf256(t, x_in, c_in);
+
+    for (uint8_t i = 0; i < N_SHARES; i++) {
+        z_out[i] = y_in[i] ^ t[i];
+    }
+}
