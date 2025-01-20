@@ -89,11 +89,11 @@ int main(void)
         /////////////////////
 
         #ifdef RUN_BENCHMARK
+        DWT_CYCCNT = 0;
         end_step1_count = 0;
         end_step2_count = 0;
         end_step3_count = 0;
         end_step4_count = 0;
-
         start_total_count = DWT_CYCCNT; 
         start_rowech_count = DWT_CYCCNT;
         #endif
@@ -102,7 +102,6 @@ int main(void)
         {
             uint8_t p[N_SHARES];
             uint8_t s[N_SHARES];
-
             for (uint8_t j = 0; j < M_DIM; j++) {
                 
                 // STEP 1
@@ -129,7 +128,7 @@ int main(void)
                 }
 
                 #ifdef RUN_BENCHMARK    
-                end_step1_count += DWT_CYCCNT - start_step1_count;
+                end_step1_count += (DWT_CYCCNT - start_step1_count);
                 #endif
 
                 // STEP 2
@@ -144,11 +143,12 @@ int main(void)
                 FullAdd_gf256(&cj, t);
 
                 #ifdef RUN_BENCHMARK
-                end_step2_count += DWT_CYCCNT - start_step2_count;
+                end_step2_count += (DWT_CYCCNT - start_step2_count);
                 #endif
 
                 if (cj == 0) {
-                    return -1; // Fail
+                    fail = -1; // Fail
+                    break;
                 }
                 else {
 
@@ -165,7 +165,7 @@ int main(void)
                     secScalarMult_gf256(b[j], b[j], p);
 
                     #ifdef RUN_BENCHMARK    
-                    end_step3_count += DWT_CYCCNT - start_step3_count;
+                    end_step3_count += (DWT_CYCCNT - start_step3_count);
                     #endif
 
                     // STEP 4
@@ -182,10 +182,14 @@ int main(void)
                     }
 
                     #ifdef RUN_BENCHMARK
-                    end_step4_count += DWT_CYCCNT - start_step4_count;
+                    end_step4_count += (DWT_CYCCNT - start_step4_count);
                     #endif
                 }
-            } 
+            }
+            if (fail == -1) {
+                break;
+            }
+            fail = 0; // Success 
         }
         #ifdef RUN_BENCHMARK
         end_rowech_count = DWT_CYCCNT - start_rowech_count;

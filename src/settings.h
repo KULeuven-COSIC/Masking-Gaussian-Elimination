@@ -29,7 +29,7 @@
 
 // Verify correctness or benchmark 
 
-#define RUN_VERIFY 
+// #define RUN_VERIFY 
 #define RUN_BENCHMARK
 
 #define N_RUNS 10

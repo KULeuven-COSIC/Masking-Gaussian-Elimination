@@ -29,7 +29,7 @@ mGE_m4.elf: LDFLAGS += -lopencm3_stm32f4
 mGE_m4.elf: OBJS += $(COMMONDIR)/stm32f4_wrapper.o
 mGE_m4.elf: $(COMMONDIR)/stm32f4_wrapper.o
 
-CFLAGS		+= -O0 \
+CFLAGS		+= -O3 -g3 \
 		   -Wall -Wextra -Wimplicit-function-declaration \
 		   -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes \
 		   -Wundef -Wshadow \

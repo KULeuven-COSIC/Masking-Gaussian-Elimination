@@ -60,11 +60,11 @@
 
 #ifdef CUSTOM
 // Matrix dimension
-#define M_DIM 46
+#define M_DIM 2
 
 // Early stop conditional additions in Step 1
 // #define STEP1_EARLY_STOP
-// #define STEP1_STOP 7
+// #define STEP1_STOP 2
 #endif
 
 #endif
